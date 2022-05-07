@@ -1,23 +1,23 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import Meme from './components/Meme.jsx';
 
+const meme_url = "https://api.imgflip.com/get_memes";
 function App() {
+  const [meme, setMeme] = useState();
+  const getData = () => {
+    fetch(meme_url)
+      .then(response => response.json())
+      .then(responsedata => setMeme(responsedata.data.memes[0]));
+  };
+  useEffect(() => {
+    getData()
+  }, [])
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Meme childMeme={meme}></Meme>
     </div>
   );
 }
